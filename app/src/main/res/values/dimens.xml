@@ -1,0 +1,33 @@
+<resources>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="margin_big_2">90dp</dimen>
+    <dimen name="margin_big_1">60dp</dimen>
+    <dimen name="margin_normal_1">16dp</dimen>
+    <dimen name="margin_normal_2">24dp</dimen>
+    <dimen name="margin_normal_3">32dp</dimen>
+
+    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+
+    <dimen name="common_radius">14dp</dimen>
+    <dimen name="common_elevation">8dp</dimen>
+    <dimen name="search_view_radius">10dp</dimen>
+
+    <dimen name="detail_image_size">300dp</dimen>
+    <dimen name="error_image_size">50dp</dimen>
+    <dimen name="home_image_size">80dp</dimen>
+
+    <dimen name="text_size_large">24sp</dimen>
+    <dimen name="text_size_normal">20sp</dimen>
+    <dimen name="text_size_small">16sp</dimen>
+    <dimen name="text_size_very_small">12sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="padding_normal">16dp</dimen>
+
+    <dimen name="search_icon_padding">12dp</dimen>
+    <dimen name="search_view_text_padding">8dp</dimen>
+
+</resources>

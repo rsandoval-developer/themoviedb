@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#212121</color>
+    <color name="gray">#888B90</color>
+    <color name="light_gray">#DCDCDF</color>
+
+    <color name="blue_tmdb">#032541</color>
+    <color name="blue_dark_tmdb">#00001b</color>
+    <color name="blue_light_tmdb">#344d6c</color>
+
+    <color name="white_50">#88ffffff</color>
+    <color name="black_50">#88000000</color>
+    <color name="gray_50">#88888888</color>
+
+    <color name="color_acent">#FF90CEA1</color>
+
+    <color name="color_blue">#FF00B3E5</color>
+
+    <color name="search_layover_bg">@color/gray</color>
+    <color name="search_field_bg">@color/white_ish</color>
+
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="white_ish">#fffefefe</color>
+
+</resources>
