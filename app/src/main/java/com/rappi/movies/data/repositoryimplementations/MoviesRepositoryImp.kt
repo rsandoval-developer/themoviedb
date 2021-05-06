@@ -6,6 +6,7 @@ import com.rappi.movies.data.remote.request.GetMoviesRequestParams
 import com.rappi.movies.domain.datasource.MoviesApiDataSource
 import com.rappi.movies.domain.datasource.MoviesDatabaseDataSource
 import com.rappi.movies.domain.model.Movie
+import com.rappi.movies.domain.model.Video
 import com.rappi.movies.domain.repository.MoviesRepository
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import io.reactivex.Observable
@@ -50,5 +51,8 @@ class MoviesRepositoryImp @Inject constructor(
 
     override fun searchMovies(apiKey: String, query: String): Observable<List<Movie>> =
         this.moviesApiDataSource.searchMovies(apiKey, query)
+
+    override fun getVideos(movieId: Int, apiKey: String): Observable<List<Video>> =
+        this.moviesApiDataSource.getVideos(movieId, apiKey)
 
 }
