@@ -54,7 +54,8 @@ class MovieAdapter(private val context: Context) :
             with(binding) {
                 Glide.with(context)
                     .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
-                    .centerCrop()
+                    .error(R.drawable.ic_logo_tmdb)
+                    .placeholder(R.drawable.ic_logo_tmdb)
                     .into(this.imgMovie)
                 this.root.setOnClickListener { clickMovie(movie) }
             }
