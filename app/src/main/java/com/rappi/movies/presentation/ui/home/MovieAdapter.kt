@@ -3,8 +3,10 @@ package com.rappi.movies.presentation.ui.home
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.rappi.movies.R
 import com.rappi.movies.databinding.ItemMovieBinding
 import com.rappi.movies.domain.model.Movie
 
@@ -13,9 +15,12 @@ class MovieAdapter(private val context: Context) :
 
     private val movies: MutableList<Movie> = mutableListOf()
 
+    private var insertIndex: Int = 0
+
     fun updateMovies(movies: List<Movie>) {
-        this.movies.addAll(movies)
-        this.notifyDataSetChanged()
+        this.movies.addAll(insertIndex, movies)
+        this.notifyItemRangeChanged(insertIndex, this.movies.size)
+        this.insertIndex += movies.size
     }
 
     internal var clickMovie: (Movie) -> Unit = { _ -> }
@@ -32,6 +37,10 @@ class MovieAdapter(private val context: Context) :
             contact,
             this.clickMovie
         )
+
+        holder.binding.root.animation =
+            AnimationUtils.loadAnimation(holder.itemView.context, R.anim.scale)
+
     }
 
     class ViewHolder(val binding: ItemMovieBinding) :

@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.rappi.movies.BuildConfig
 import com.rappi.movies.R
@@ -134,6 +135,12 @@ class MoviesFragment : Fragment() {
         this.binding.rvMovies.layoutManager =
             GridLayoutManager(this.context, 3, LinearLayoutManager.VERTICAL, false)
         this.binding.rvMovies.removeItemDecoration(this.divider)
+
+        this.binding.rvMovies.apply {
+            itemAnimator?.changeDuration = 0
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
+
         this.binding.rvMovies.adapter = this.movieAdapter
 
         this.binding.rvMovies.addOnScrollListener(object :
