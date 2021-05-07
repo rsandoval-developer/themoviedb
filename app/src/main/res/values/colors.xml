@@ -27,4 +27,7 @@
 
     <color name="white_ish">#fffefefe</color>
 
+    <color name="green_circle">#20BE70</color>
+    <color name="yellow_circle">#C2C52E</color>
+
 </resources>

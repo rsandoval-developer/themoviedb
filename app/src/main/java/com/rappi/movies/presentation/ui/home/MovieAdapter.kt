@@ -9,6 +9,8 @@ import com.bumptech.glide.Glide
 import com.rappi.movies.R
 import com.rappi.movies.databinding.ItemMovieBinding
 import com.rappi.movies.domain.model.Movie
+import com.rappi.movies.utils.formatToServerDateDefaults
+import com.rappi.movies.utils.removeZeros
 
 class MovieAdapter(private val context: Context) :
     RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
@@ -58,6 +60,10 @@ class MovieAdapter(private val context: Context) :
                     .placeholder(R.drawable.ic_logo_tmdb)
                     .into(this.imgMovie)
                 this.root.setOnClickListener { clickMovie(movie) }
+                this.txtTitle.text = movie.title
+                this.progressBar.progress = ((movie.voteAverage * 10).toInt())
+                this.txtVoteAverage.text = (movie.voteAverage * 10).removeZeros().plus("%")
+                this.txtDate.text = movie.releaseDate?.formatToServerDateDefaults()
             }
     }
 

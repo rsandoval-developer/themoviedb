@@ -10,6 +10,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import java.text.DecimalFormat
 
 inline fun SearchView.onQueryTextChanged(crossinline onQueryTextChanged: (String) -> Unit) {
     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -72,3 +73,8 @@ inline fun <T : DialogFragment> T.withArgs(argsBuilder: Bundle.() -> Unit): T =
     this.apply {
         arguments = Bundle().apply(argsBuilder)
     }
+
+fun Double.removeZeros(): String {
+    val df = DecimalFormat("###.#")
+    return df.format(this)
+}
