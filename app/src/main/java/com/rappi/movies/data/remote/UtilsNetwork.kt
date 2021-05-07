@@ -1,4 +1,4 @@
-package com.rappi.movies.utils
+package com.rappi.movies.data.remote
 
 import android.content.Context
 import android.net.ConnectivityManager

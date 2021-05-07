@@ -1,29 +1,27 @@
 package com.rappi.movies.presentation.ui.home
 
-import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.rappi.movies.data.remote.request.GetMoviesRequestParams
 import com.rappi.movies.domain.model.Movie
 import com.rappi.movies.domain.usecases.GetMoviesUseCase
 import com.rappi.movies.presentation.base.Resource
-import com.rappi.movies.presentation.base.ViewModelBase
 
 class MoviesViewModel @ViewModelInject constructor(
-    private val getMoviesUseCase: GetMoviesUseCase,
-    application: Application
+    private val getMoviesUseCase: GetMoviesUseCase
 ) :
-    ViewModelBase(application) {
+    ViewModel() {
 
-    val moviesViewModelState = MutableLiveData<Resource<List<Movie>>>()
+    val resource = MutableLiveData<Resource<List<Movie>>>()
 
     fun getMovies(
         getMoviesRequestParams: GetMoviesRequestParams
     ) {
         if (!getMoviesRequestParams.isPagination) {
-            this.moviesViewModelState.value = Resource.Loading(true)
+            resource.value = Resource.Loading(true)
         }
-        this.getMoviesUseCase.execute(
+        getMoviesUseCase.execute(
             params = getMoviesRequestParams,
             onSuccess = ::handleMovies,
             onError = ::handleError
@@ -31,17 +29,17 @@ class MoviesViewModel @ViewModelInject constructor(
     }
 
     private fun handleMovies(counters: List<Movie>) {
-        this.moviesViewModelState.value = Resource.Loading(false)
-        this.moviesViewModelState.value = Resource.Success(counters)
+        resource.value = Resource.Loading(false)
+        resource.value = Resource.Success(counters)
     }
 
-    override fun defaultError(error: Throwable) {
-        this.moviesViewModelState.value = Resource.Loading(false)
-        this.moviesViewModelState.value = Resource.Failure(error)
+    private fun handleError(error: Throwable) {
+        resource.value = Resource.Loading(false)
+        resource.value = Resource.Failure(error)
     }
 
     override fun onCleared() {
-        this.getMoviesUseCase.dispose()
+        getMoviesUseCase.dispose()
         super.onCleared()
     }
 }

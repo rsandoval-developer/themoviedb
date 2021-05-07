@@ -1,4 +1,4 @@
-package com.rappi.movies.utils
+package com.rappi.movies.extensions
 
 import java.text.SimpleDateFormat
 import java.util.*

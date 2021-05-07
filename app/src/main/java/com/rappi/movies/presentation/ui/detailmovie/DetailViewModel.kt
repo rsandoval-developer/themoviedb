@@ -3,23 +3,22 @@ package com.rappi.movies.presentation.ui.detailmovie
 import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.rappi.movies.domain.model.Video
 import com.rappi.movies.domain.usecases.GetVideoTrailerUseCase
 import com.rappi.movies.presentation.base.Resource
-import com.rappi.movies.presentation.base.ViewModelBase
 
 class DetailViewModel @ViewModelInject constructor(
-    private val getVideoTrailerUseCase: GetVideoTrailerUseCase,
-    application: Application
+    private val getVideoTrailerUseCase: GetVideoTrailerUseCase
 ) :
-    ViewModelBase(application) {
+    ViewModel() {
 
     val resource = MutableLiveData<Resource<Video>>()
 
     fun getVideoTrailer(
         movieId: Int
     ) {
-        this.getVideoTrailerUseCase.execute(
+        getVideoTrailerUseCase.execute(
             params = movieId,
             onSuccess = ::handleVideoTrailer,
             onError = ::handleError
@@ -27,17 +26,17 @@ class DetailViewModel @ViewModelInject constructor(
     }
 
     private fun handleVideoTrailer(video: Video) {
-        this.resource.value = Resource.Loading(false)
-        this.resource.value = Resource.Success(video)
+        resource.value = Resource.Loading(false)
+        resource.value = Resource.Success(video)
     }
 
-    override fun defaultError(error: Throwable) {
-        this.resource.value = Resource.Loading(false)
-        this.resource.value = Resource.Failure(error)
+    private fun handleError(error: Throwable) {
+        resource.value = Resource.Loading(false)
+        resource.value = Resource.Failure(error)
     }
 
     override fun onCleared() {
-        this.getVideoTrailerUseCase.dispose()
+        getVideoTrailerUseCase.dispose()
         super.onCleared()
     }
 }

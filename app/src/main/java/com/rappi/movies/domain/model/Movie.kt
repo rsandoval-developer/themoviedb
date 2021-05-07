@@ -2,8 +2,8 @@ package com.rappi.movies.domain.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.rappi.movies.utils.readDate
-import com.rappi.movies.utils.writeDate
+import com.rappi.movies.extensions.readDate
+import com.rappi.movies.extensions.writeDate
 import java.util.*
 
 data class Movie(
@@ -23,13 +23,13 @@ data class Movie(
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
+        parcel.readString().orEmpty() ,
+        parcel.readString().orEmpty(),
+        parcel.readString().orEmpty(),
         parcel.readByte() != 0.toByte(),
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
+        parcel.readString().orEmpty(),
+        parcel.readString().orEmpty(),
+        parcel.readString().orEmpty(),
         parcel.readDate(),
         parcel.readDouble(),
         parcel.readDouble(),

@@ -1,4 +1,4 @@
-package com.rappi.movies.utils
+package com.rappi.movies.presentation.ui.utils
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

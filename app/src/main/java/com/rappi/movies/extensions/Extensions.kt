@@ -1,7 +1,8 @@
-package com.rappi.movies.utils
+package com.rappi.movies.extensions
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcel
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -11,6 +12,27 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import java.text.DecimalFormat
+import java.util.*
+
+fun Parcel.readDate(): Date? {
+    val time = this.readLong()
+    return if (time > 0) {
+        Date(time)
+    } else {
+        null
+    }
+}
+
+fun Parcel.readLongArray(): List<Long> {
+    val ids: MutableList<Long> = mutableListOf()
+    this.readList(ids, MutableList::class.java.classLoader)
+    return ids
+}
+
+fun Parcel.writeDate(value: Date?) {
+    writeLong(value?.time ?: -1)
+}
+
 
 inline fun SearchView.onQueryTextChanged(crossinline onQueryTextChanged: (String) -> Unit) {
     setOnQueryTextListener(object : SearchView.OnQueryTextListener {

@@ -5,45 +5,36 @@ import com.google.gson.annotations.SerializedName
 data class VideosResponse(
 
     @SerializedName("id")
-    val id: Int? = null,
+    val id: Int,
 
     @SerializedName("results")
-    val results: List<VideosResultsItem>? = null
+    val results: List<VideosResultsItem>
 )
 
 data class VideosResultsItem(
 
     @SerializedName("site")
-    val site: String? = null,
+    val site: String,
 
     @SerializedName("size")
-    val size: Int? = null,
+    val size: Int,
 
     @SerializedName("iso_3166_1")
-    val iso31661: String? = null,
+    val iso31661: String,
 
     @SerializedName("name")
-    val _name: String? = null,
+    val name: String,
 
     @SerializedName("id")
-    val id: String? = null,
+    val id: String,
 
     @SerializedName("type")
-    val _type: String? = null,
+    val type: String,
 
     @SerializedName("iso_639_1")
-    val iso6391: String? = null,
+    val iso6391: String,
 
     @SerializedName("key")
-    val _key: String? = null
-
-) {
-    val name: String
-        get() = this._name ?: ""
-
-    val type: String
-        get() = this._type ?: ""
-
     val key: String
-        get() = this._key ?: ""
-}
+
+)

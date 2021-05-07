@@ -12,11 +12,11 @@ import com.rappi.movies.R
 import com.rappi.movies.data.remote.exceptions.AppException
 import com.rappi.movies.databinding.ActivitySearchMoviesBinding
 import com.rappi.movies.databinding.ContentSearchMoviesBinding
+import com.rappi.movies.extensions.hide
+import com.rappi.movies.extensions.show
+import com.rappi.movies.extensions.showIf
 import com.rappi.movies.presentation.base.Resource
 import com.rappi.movies.presentation.ui.detailmovie.DetailMovieActivity
-import com.rappi.movies.utils.hide
-import com.rappi.movies.utils.show
-import com.rappi.movies.utils.showIf
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,17 +33,15 @@ class SearchMoviesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivitySearchMoviesBinding.inflate(layoutInflater)
+        contentSearchMoviesBinding = binding.contentSearchMovies
+        setContentView(binding.root)
+        initToolbar()
+        initAdapter()
+        initObserveViewModel()
+        initButtons()
 
-        this.binding = ActivitySearchMoviesBinding.inflate(layoutInflater)
-        this.contentSearchMoviesBinding = this.binding.contentSearchMovies
-        val view = binding.root
-        setContentView(view)
-        this.initToolbar()
-        this.initAdapter()
-        this.initObserveViewModel()
-        this.initButtons()
-
-        this.binding.searchView.setOnQueryTextListener(object :
+        binding.searchView.setOnQueryTextListener(object :
             android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query.isNotEmpty()) {
@@ -74,51 +72,58 @@ class SearchMoviesActivity : AppCompatActivity() {
     }
 
     private fun initToolbar() {
-        this.binding.toolbar.title = ""
-        this.setSupportActionBar(binding.toolbar)
-        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.toolbar.title = ""
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initAdapter() {
-        this.contentSearchMoviesBinding.rvMovies.layoutManager = LinearLayoutManager(this)
-        this.contentSearchMoviesBinding.rvMovies.adapter = this.searchMovieAdapter
+        contentSearchMoviesBinding.rvMovies.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = searchMovieAdapter
+        }
     }
 
 
     private fun initObserveViewModel() {
-        this.viewModel.resource.observe(this, Observer { state ->
+        viewModel.resource.observe(this, Observer { state ->
             when (state) {
                 is Resource.Loading -> {
-                    this.contentSearchMoviesBinding.progressBar.showIf { state.visible }
-                    this.contentSearchMoviesBinding.rvMovies.showIf { !state.visible }
+                    contentSearchMoviesBinding.apply {
+                        progressBar.showIf { state.visible }
+                        rvMovies.showIf { !state.visible }
+                    }
                 }
                 is Resource.Success -> {
                     if (state.data.isEmpty()) {
-                        this.contentSearchMoviesBinding.txtEmpty.show()
-                        this.contentSearchMoviesBinding.rvMovies.hide()
-                        this.contentSearchMoviesBinding.txtEmpty.text =
-                            this.resources.getString(R.string.no_results)
+                        contentSearchMoviesBinding.apply {
+                            txtEmpty.show()
+                            rvMovies.hide()
+                            txtEmpty.text = resources.getString(R.string.no_results)
+                        }
                         return@Observer
                     }
-                    this.contentSearchMoviesBinding.txtEmpty.hide()
-                    this.contentSearchMoviesBinding.rvMovies.show()
-                    this.searchMovieAdapter.updateMovies(state.data)
+                    contentSearchMoviesBinding.apply {
+                        txtEmpty.hide()
+                        rvMovies.show()
+                    }
+                    searchMovieAdapter.updateMovies(state.data)
                 }
                 is Resource.Failure -> {
-
                     if (state.error is AppException) {
                         when (state.error.validationType) {
                             AppException.Type.ERROR_NETWORK -> {
-                                this.contentSearchMoviesBinding.txtEmpty.show()
-                                this.contentSearchMoviesBinding.txtEmpty.text =
-                                    state.error.message
-                                this.contentSearchMoviesBinding.rvMovies.hide()
-
+                                contentSearchMoviesBinding.apply {
+                                    txtEmpty.show()
+                                    txtEmpty.text =
+                                        resources.getString(R.string.connection_error_description)
+                                    rvMovies.hide()
+                                }
                             }
                         }
                     } else {
                         Snackbar.make(
-                            this.binding.root,
+                            binding.root,
                             state.error.message ?: "",
                             Snackbar.LENGTH_LONG
                         ).show()
@@ -130,11 +135,10 @@ class SearchMoviesActivity : AppCompatActivity() {
     }
 
     private fun initButtons() {
-        this.searchMovieAdapter.clickMovie = { movie ->
+        searchMovieAdapter.clickMovie = { movie ->
             val intent = Intent(this, DetailMovieActivity::class.java)
             intent.putExtra("movie", movie)
             startActivity(intent)
         }
     }
-
 }

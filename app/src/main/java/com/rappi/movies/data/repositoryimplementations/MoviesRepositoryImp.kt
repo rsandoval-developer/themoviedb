@@ -21,26 +21,26 @@ class MoviesRepositoryImp @Inject constructor(
     @VisibleForTesting
     internal fun cacheMovies(movies: List<Movie>?, idMovies: String) {
         if (movies != null) {
-            this.moviesDatabaseDataSource.insertMovies(movies, idMovies)
+            moviesDatabaseDataSource.insertMovies(movies, idMovies)
         }
     }
 
     override fun getMovies(
         getMoviesRequestParams: GetMoviesRequestParams
     ): Observable<List<Movie>> =
-        this.moviesApiDataSource.getMovies(
+        moviesApiDataSource.getMovies(
             getMoviesRequestParams.idMovies,
             getMoviesRequestParams.apiKey,
             getMoviesRequestParams.page
         )
             .doOnNext { movies ->
-                this.cacheMovies(
+                cacheMovies(
                     movies,
                     getMoviesRequestParams.idMovies,
                 )
             }.onErrorResumeNext(
                 if (!getMoviesRequestParams.isPagination) {
-                    this.moviesDatabaseDataSource.getMovies(getMoviesRequestParams.idMovies)
+                    moviesDatabaseDataSource.getMovies(getMoviesRequestParams.idMovies)
                         .onErrorResumeNext(
                             Observable.error(AppException(AppException.Type.ERROR_NETWORK))
                         )
@@ -50,9 +50,9 @@ class MoviesRepositoryImp @Inject constructor(
             )
 
     override fun searchMovies(apiKey: String, query: String): Observable<List<Movie>> =
-        this.moviesApiDataSource.searchMovies(apiKey, query)
+        moviesApiDataSource.searchMovies(apiKey, query)
 
     override fun getVideos(movieId: Int, apiKey: String): Observable<List<Video>> =
-        this.moviesApiDataSource.getVideos(movieId, apiKey)
+        moviesApiDataSource.getVideos(movieId, apiKey)
 
 }

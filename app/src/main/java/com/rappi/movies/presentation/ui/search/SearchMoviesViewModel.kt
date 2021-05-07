@@ -1,28 +1,26 @@
 package com.rappi.movies.presentation.ui.search
 
-import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.rappi.movies.BuildConfig
 import com.rappi.movies.domain.model.Movie
 import com.rappi.movies.domain.usecases.ParamsSearchMovies
 import com.rappi.movies.domain.usecases.SearchMoviesUseCase
 import com.rappi.movies.presentation.base.Resource
-import com.rappi.movies.presentation.base.ViewModelBase
 
 class SearchMoviesViewModel @ViewModelInject constructor(
-    private val searchMoviesUseCase: SearchMoviesUseCase,
-    application: Application
+    private val searchMoviesUseCase: SearchMoviesUseCase
 ) :
-    ViewModelBase(application) {
+    ViewModel() {
 
     val resource = MutableLiveData<Resource<List<Movie>>>()
 
     fun searchMovies(
         query: String
     ) {
-        this.resource.value = Resource.Loading(true)
-        this.searchMoviesUseCase.execute(
+        resource.value = Resource.Loading(true)
+        searchMoviesUseCase.execute(
             params = ParamsSearchMovies(BuildConfig.API_KEY, query),
             onSuccess = ::handleMovies,
             onError = ::handleError
@@ -30,17 +28,17 @@ class SearchMoviesViewModel @ViewModelInject constructor(
     }
 
     private fun handleMovies(counters: List<Movie>) {
-        this.resource.value = Resource.Loading(false)
-        this.resource.value = Resource.Success(counters)
+        resource.value = Resource.Loading(false)
+        resource.value = Resource.Success(counters)
     }
 
-    override fun defaultError(error: Throwable) {
-        this.resource.value = Resource.Loading(false)
-        this.resource.value = Resource.Failure(error)
+    private fun handleError(error: Throwable) {
+        resource.value = Resource.Loading(false)
+        resource.value = Resource.Failure(error)
     }
 
     override fun onCleared() {
-        this.searchMoviesUseCase.dispose()
+        searchMoviesUseCase.dispose()
         super.onCleared()
     }
 }

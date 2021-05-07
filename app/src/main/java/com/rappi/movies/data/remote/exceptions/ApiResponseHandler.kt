@@ -1,6 +1,6 @@
 package com.rappi.movies.data.remote.exceptions
 
-import com.rappi.movies.domain.model.ErrorApiResponseObject
+import com.rappi.movies.data.remote.response.ErrorApiResponseObject
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Converter
@@ -28,7 +28,13 @@ data class ApiResponseHandler @Inject constructor(private val retrofit: Retrofit
                     )
                 val apiError = converter.convert(errorBody)
                 if (apiError != null) {
-                    Observable.error(RappiException(apiError.code, apiError.message))
+                    Observable.error(
+                        AppException(
+                            AppException.Type.ERROR_GENERIC,
+                            apiError.code,
+                            apiError.message
+                        )
+                    )
                 } else {
                     Observable.error(Throwable("Unable to parse error body"))
                 }

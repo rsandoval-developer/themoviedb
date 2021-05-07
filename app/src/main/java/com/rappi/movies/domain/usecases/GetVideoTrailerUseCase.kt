@@ -13,7 +13,7 @@ class GetVideoTrailerUseCase @Inject constructor(
     ParamsUseCase<Video, Int>() {
 
     override fun createObservable(params: Int): Observable<Video> =
-        this.moviesRepository.getVideos(params, BuildConfig.API_KEY).flatMapIterable { it }
+        moviesRepository.getVideos(params, BuildConfig.API_KEY).flatMapIterable { it }
             .filter { video -> video.type == "Trailer" }
 
 }

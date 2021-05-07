@@ -9,7 +9,7 @@ import com.rappi.movies.AppConstants
 import com.rappi.movies.data.db.AppDatabase
 import com.rappi.movies.data.remote.exceptions.AppException
 import com.rappi.movies.data.remote.services.MoviesServices
-import com.rappi.movies.utils.UtilsNetwork
+import com.rappi.movies.data.remote.UtilsNetwork
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

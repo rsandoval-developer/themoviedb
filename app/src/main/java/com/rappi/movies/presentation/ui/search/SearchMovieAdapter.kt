@@ -35,7 +35,7 @@ class SearchMovieAdapter(private val context: Context) :
         )
     }
 
-    class ViewHolder(val binding: ItemSearchMovieBinding) :
+    class ViewHolder(private val binding: ItemSearchMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bindView(
@@ -48,9 +48,9 @@ class SearchMovieAdapter(private val context: Context) :
                     .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
                     .centerCrop()
                     .into(this.imgMovie)
-                this.txtTitle.text = movie.originalTitle
-                this.txtOverview.text = movie.overview
-                this.root.setOnClickListener { clickMovie(movie) }
+                txtTitle.text = movie.originalTitle
+                txtOverview.text = movie.overview
+                root.setOnClickListener { clickMovie(movie) }
             }
     }
 

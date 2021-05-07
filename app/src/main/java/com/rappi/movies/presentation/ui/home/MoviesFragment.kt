@@ -21,7 +21,8 @@ import com.rappi.movies.databinding.FragmentMoviesBinding
 import com.rappi.movies.presentation.base.Resource
 import com.rappi.movies.presentation.ui.DividerItemDecoration
 import com.rappi.movies.presentation.ui.detailmovie.DetailMovieActivity
-import com.rappi.movies.utils.*
+import com.rappi.movies.extensions.*
+import com.rappi.movies.presentation.ui.utils.PaginationScrollListener
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -60,19 +61,19 @@ class MoviesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        this.binding = FragmentMoviesBinding.inflate(inflater, container, false)
+        binding = FragmentMoviesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.initAdapter()
-        this.initObserveViewModel()
-        this.initButtons()
-        this.viewModel.getMovies(
+        initAdapter()
+        initObserveViewModel()
+        initButtons()
+        viewModel.getMovies(
             GetMoviesRequestParams(
-                this.idMovies ?: "",
+                idMovies ?: "",
                 BuildConfig.API_KEY,
                 page
             ),
@@ -80,7 +81,7 @@ class MoviesFragment : Fragment() {
     }
 
     private fun initButtons() {
-        this.movieAdapter.clickMovie = { movie ->
+        movieAdapter.clickMovie = { movie ->
             val intent = Intent(context, DetailMovieActivity::class.java)
             intent.putExtra("movie", movie)
             startActivity(intent)
@@ -88,39 +89,41 @@ class MoviesFragment : Fragment() {
     }
 
     private fun initObserveViewModel() {
-        this.viewModel.moviesViewModelState.observe(viewLifecycleOwner, Observer { state ->
+        viewModel.resource.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is Resource.Loading -> {
-                    this.binding.progressBar.showIf { state.visible }
-                    this.binding.rvMovies.showIf { !state.visible }
+                    binding.apply {
+                        progressBar.showIf { state.visible }
+                        rvMovies.showIf { !state.visible }
+                    }
                 }
                 is Resource.Success -> {
                     if (state.data.isEmpty()) {
-                        this.binding.txtEmpty.show()
-                        this.binding.rvMovies.hide()
-                        this.binding.txtEmpty.text =
-                            this.resources.getString(R.string.no_results)
+                        binding.apply {
+                            txtEmpty.show()
+                            rvMovies.hide()
+                            txtEmpty.text = resources.getString(R.string.no_results)
+                        }
                         return@Observer
                     }
-                    this.binding.txtEmpty.hide()
-                    this.movieAdapter.updateMovies(state.data)
-                    this.isLoading = false
+                    binding.txtEmpty.hide()
+                    movieAdapter.updateMovies(state.data)
+                    isLoading = false
                 }
                 is Resource.Failure -> {
-
                     if (state.error is AppException) {
                         when (state.error.validationType) {
                             AppException.Type.ERROR_NETWORK -> {
-                                this.binding.txtEmpty.show()
-                                this.binding.txtEmpty.text =
-                                    state.error.message
-                                this.binding.rvMovies.hide()
-
+                                binding.apply {
+                                    txtEmpty.show()
+                                    txtEmpty.text = resources.getString(R.string.connection_error_description)
+                                    rvMovies.hide()
+                                }
                             }
                         }
                     } else {
                         Snackbar.make(
-                            this.binding.root,
+                            binding.root,
                             state.error.message ?: "",
                             Snackbar.LENGTH_LONG
                         ).show()
@@ -132,43 +135,35 @@ class MoviesFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        this.binding.rvMovies.layoutManager =
-            GridLayoutManager(this.context, 3, LinearLayoutManager.VERTICAL, false)
-        this.binding.rvMovies.removeItemDecoration(this.divider)
 
-        this.binding.rvMovies.apply {
+        binding.rvMovies.apply {
+            removeItemDecoration(divider)
+            layoutManager = GridLayoutManager(context, 3, LinearLayoutManager.VERTICAL, false)
             itemAnimator?.changeDuration = 0
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+            adapter = movieAdapter
+            addOnScrollListener(object :
+                PaginationScrollListener(layoutManager as GridLayoutManager) {
+
+                override fun isLastPage(): Boolean = isLastPage
+
+                override fun isLoading(): Boolean = isLoading
+
+                override fun loadMoreItems() {
+                    isLoading = true
+                    //you have to call loadmore items to get more data
+                    page++
+                    viewModel.getMovies(
+                        GetMoviesRequestParams(
+                            idMovies ?: "",
+                            BuildConfig.API_KEY,
+                            page,
+                            isPagination = true
+                        )
+                    )
+                }
+            })
         }
 
-        this.binding.rvMovies.adapter = this.movieAdapter
-
-        this.binding.rvMovies.addOnScrollListener(object :
-            PaginationScrollListener(this.binding.rvMovies.layoutManager as GridLayoutManager) {
-            override fun isLastPage(): Boolean {
-                return isLastPage
-            }
-
-            override fun isLoading(): Boolean {
-                return isLoading
-            }
-
-            override fun loadMoreItems() {
-                isLoading = true
-                //you have to call loadmore items to get more data
-                page++
-                viewModel.getMovies(
-                    GetMoviesRequestParams(
-                        idMovies ?: "",
-                        BuildConfig.API_KEY,
-                        page,
-                        isPagination = true
-                    )
-                )
-            }
-        })
-
-
     }
-
 }

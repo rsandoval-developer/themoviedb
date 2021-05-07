@@ -1,6 +1,5 @@
 package com.rappi.movies.data.datasourceimplementations
 
-import android.annotation.SuppressLint
 import com.rappi.movies.data.db.daos.MoviesDao
 import com.rappi.movies.domain.datasource.MoviesDatabaseDataSource
 import com.rappi.movies.domain.mappers.MoviesMapper
@@ -16,16 +15,9 @@ class MoviesDatabaseDataSourceImpl @Inject constructor(
 ) :
     MoviesDatabaseDataSource {
 
-    @SuppressLint("CheckResult")
     override fun insertMovies(movies: List<Movie>, idMovies: String) {
-        Observable.fromArray(movies)
-            .flatMapIterable { countersIterable -> countersIterable }
-            .map { movie -> this.moviesMapper.mapToDatabase(movie, idMovies) }
-            .toList()
-            .toObservable()
-            .subscribe { countersEntities ->
-                this.moviesDao.insertCounters(countersEntities)
-            }
+        val movieEntity = movies.map { movie -> this.moviesMapper.mapToDatabase(movie, idMovies) }
+        this.moviesDao.insertMovies(movieEntity)
     }
 
     override fun deleteMovies() {

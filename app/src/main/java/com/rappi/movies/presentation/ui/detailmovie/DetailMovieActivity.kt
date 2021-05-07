@@ -14,8 +14,8 @@ import com.rappi.movies.domain.model.Movie
 import com.rappi.movies.domain.model.Video
 import com.rappi.movies.presentation.base.Resource
 import com.rappi.movies.presentation.ui.player.PlayerYoutubeActivity
-import com.rappi.movies.utils.formatToServerDateDefaultsYear
-import com.rappi.movies.utils.showIf
+import com.rappi.movies.extensions.formatToServerDateDefaultsYear
+import com.rappi.movies.extensions.showIf
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -59,12 +59,12 @@ class DetailMovieActivity : AppCompatActivity() {
             .centerCrop()
             .into(this.binding.imgMoviePreview)
 
-        this.binding.contentDetailMovie.txtTitle.text = this.movie?.originalTitle
-        this.binding.contentDetailMovie.txtYear.text =
-            "(${this.movie?.releaseDate?.formatToServerDateDefaultsYear()})"
-        this.binding.contentDetailMovie.txtOverview.text = this.movie?.overview
 
-
+        this.binding.contentDetailMovie.apply {
+            txtTitle.text = movie?.originalTitle
+            txtYear.text = "(${movie?.releaseDate?.formatToServerDateDefaultsYear()})"
+            txtOverview.text = movie?.overview
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -82,8 +82,10 @@ class DetailMovieActivity : AppCompatActivity() {
         this.viewModel.resource.observe(this, Observer { state ->
             when (state) {
                 is Resource.Loading -> {
-                    this.binding.progressBar.showIf { state.visible }
-                    this.binding.btnPlay.showIf { !state.visible }
+                    this.binding.apply {
+                        progressBar.showIf { state.visible }
+                        btnPlay.showIf { !state.visible }
+                    }
                 }
                 is Resource.Success -> {
                     this.video = state.data
@@ -91,7 +93,7 @@ class DetailMovieActivity : AppCompatActivity() {
                 is Resource.Failure -> {
                     Snackbar.make(
                         this.binding.root,
-                        state.error.message ?: "",
+                        state.error.message.orEmpty(),
                         Snackbar.LENGTH_LONG
                     ).show()
                 }

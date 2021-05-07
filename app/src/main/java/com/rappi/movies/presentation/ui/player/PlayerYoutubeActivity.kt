@@ -17,15 +17,15 @@ class PlayerYoutubeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.binding = ActivityPlayerYoutubeBinding.inflate(layoutInflater)
+        binding = ActivityPlayerYoutubeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        this.initPlayer()
+        initPlayer()
     }
 
     private fun initPlayer() {
-        lifecycle.addObserver(this.binding.youtubePlayerView)
+        lifecycle.addObserver(binding.youtubePlayerView)
 
-        this.binding.youtubePlayerView.addYouTubePlayerListener(object :
+        binding.youtubePlayerView.addYouTubePlayerListener(object :
             AbstractYouTubePlayerListener() {
             override fun onReady(@NonNull youTubePlayer: YouTubePlayer) {
                 val videoId = video?.key

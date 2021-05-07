@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
@@ -15,7 +14,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.rappi.movies.R
 import com.rappi.movies.databinding.ActivityHomeBinding
 import com.rappi.movies.presentation.ui.search.SearchMoviesActivity
-import com.rappi.movies.presentation.ui.search.SearchMoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,7 +27,6 @@ class HomeActivity : AppCompatActivity() {
         setContentView(this.binding.root)
         this.binding.toolbar.title = ""
         setSupportActionBar(this.binding.toolbar)
-
         this.initTabAdapter()
     }
 
@@ -43,34 +40,16 @@ class HomeActivity : AppCompatActivity() {
                 R.color.blue_tmdb
             )
         )
-        this.binding.contentHome.tabLayout.tabTextColors =
-            ContextCompat.getColorStateList(this, R.color.color_acent)
-
-        // Set different Text Color for Tabs for when are selected or not
-        //tab_layout.setTabTextColors(R.color.normalTabTextColor, R.color.selectedTabTextColor)
-
-        // Number Of Tabs
         val numberOfTabs = 2
 
-        // Set Tabs in the center
-        //tab_layout.tabGravity = TabLayout.GRAVITY_CENTER
-
-        // Show all Tabs in screen
-        this.binding.contentHome.tabLayout.tabMode = TabLayout.MODE_FIXED
-
-        // Scroll to see all Tabs
-        //tab_layout.tabMode = TabLayout.MODE_SCROLLABLE
-
-        // Set Tab icons next to the text, instead above the text
-        this.binding.contentHome.tabLayout.isInlineLabel = true
-
-        // Set the ViewPager Adapter
-        val adapter = TabsPagerAdapter(this, numberOfTabs)
-        this.binding.contentHome.tabsViewpager.adapter = adapter
-
-        // Enable Swipe
-        this.binding.contentHome.tabsViewpager.isUserInputEnabled = true
-
+        this.binding.contentHome.apply {
+            tabLayout.tabTextColors =
+                ContextCompat.getColorStateList(this@HomeActivity, R.color.color_acent)
+            tabLayout.tabMode = TabLayout.MODE_FIXED
+            tabLayout.isInlineLabel = true
+            tabsViewpager.adapter = TabsPagerAdapter(this@HomeActivity, numberOfTabs)
+            tabsViewpager.isUserInputEnabled = true
+        }
 
         // Link the TabLayout and the ViewPager2 together and Set Text & Icons
         TabLayoutMediator(

@@ -6,107 +6,59 @@ import java.util.*
 data class MoviesResponse(
 
     @SerializedName("page")
-    val page: Int? = null,
+    val page: Int,
 
     @SerializedName("total_pages")
-    val totalPages: Int? = null,
+    val totalPages: Int,
 
     @SerializedName("results")
-    val _results: List<ResultsItem>? = null,
+    val results: List<ResultsItem>,
 
     @SerializedName("total_results")
-    val totalResults: Int? = null
-) {
-    val results: List<ResultsItem>
-        get() = this._results ?: emptyList()
-}
+    val totalResults: Int
+)
 
 data class ResultsItem(
 
     @SerializedName("overview")
-    val _overview: String? = null,
+    val overview: String,
 
     @SerializedName("original_language")
-    val _originalLanguage: String? = null,
+    val originalLanguage: String,
 
     @SerializedName("original_title")
-    val _originalTitle: String? = null,
+    val originalTitle: String,
 
     @SerializedName("video")
-    val _video: Boolean? = null,
+    val video: Boolean,
 
     @SerializedName("title")
-    val _title: String? = null,
+    val title: String,
 
     @SerializedName("genre_ids")
-    val _genreIds: List<Int>? = null,
+    val genreIds: List<Int>,
 
     @SerializedName("poster_path")
-    val _posterPath: String? = null,
+    val posterPath: String?,
 
     @SerializedName("backdrop_path")
-    val _backdropPath: String? = null,
+    val backdropPath: String?,
 
     @SerializedName("release_date")
-    val _releaseDate: Date? = null,
+    val releaseDate: Date?,
 
     @SerializedName("popularity")
-    val _popularity: Double? = null,
+    val popularity: Double,
 
     @SerializedName("vote_average")
-    val _voteAverage: Double? = null,
+    val voteAverage: Double,
 
     @SerializedName("id")
-    val _id: Int? = null,
+    val id: Int,
 
     @SerializedName("adult")
-    val _adult: Boolean? = null,
+    val adult: Boolean,
 
     @SerializedName("vote_count")
-    val _voteCount: Int? = null
-) {
-
-
-    val overview: String
-        get() = this._overview ?: ""
-
-    val originalLanguage: String
-        get() = this._originalLanguage ?: ""
-
-    val originalTitle: String
-        get() = this._originalTitle ?: ""
-
-    val video: Boolean
-        get() = this._video ?: false
-
-    val title: String
-        get() = this._title ?: ""
-
-    val genreIds: List<Int>
-        get() = this._genreIds ?: emptyList()
-
-    val posterPath: String
-        get() = this._posterPath ?: ""
-
-    val backdropPath: String
-        get() = this._backdropPath ?: ""
-
-    val releaseDate: Date
-        get() = this._releaseDate ?: Date()
-
-    val popularity: Double
-        get() = this._popularity ?: 0.0
-
-    val voteAverage: Double
-        get() = this._voteAverage ?: 0.0
-
-    val id: Int
-        get() = this._id ?: 0
-
-    val adult: Boolean
-        get() = this._adult ?: false
-
     val voteCount: Int
-        get() = this._voteCount ?: 0
-
-}
+)

@@ -12,7 +12,7 @@ class SearchMoviesUseCase @Inject constructor(
     ParamsUseCase<List<Movie>, ParamsSearchMovies>() {
 
     override fun createObservable(params: ParamsSearchMovies): Observable<List<Movie>> =
-        this.moviesRepository.searchMovies(params.apiKey, params.query)
+        moviesRepository.searchMovies(params.apiKey, params.query)
 }
 
 class ParamsSearchMovies(
