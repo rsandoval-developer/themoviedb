@@ -1,6 +1,6 @@
 package com.rappi.movies.domain.repository
 
-import com.rappi.movies.data.remote.request.GetMoviesRequestParams
+import com.rappi.movies.data.api.request.GetMoviesRequestParams
 import com.rappi.movies.domain.model.Movie
 import com.rappi.movies.domain.model.Video
 import io.reactivex.Observable

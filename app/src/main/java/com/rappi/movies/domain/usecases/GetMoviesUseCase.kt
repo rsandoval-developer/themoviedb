@@ -1,6 +1,6 @@
 package com.rappi.movies.domain.usecases
 
-import com.rappi.movies.data.remote.request.GetMoviesRequestParams
+import com.rappi.movies.data.api.request.GetMoviesRequestParams
 import com.rappi.movies.domain.model.Movie
 import com.rappi.movies.domain.repository.MoviesRepository
 import com.rappi.movies.domain.usecases.base.ParamsUseCase

@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.rappi.movies.BuildConfig
 import com.rappi.movies.R
-import com.rappi.movies.data.remote.exceptions.AppException
-import com.rappi.movies.data.remote.request.GetMoviesRequestParams
+import com.rappi.movies.data.api.exceptions.AppException
+import com.rappi.movies.data.api.request.GetMoviesRequestParams
 import com.rappi.movies.databinding.FragmentMoviesBinding
 import com.rappi.movies.presentation.base.Resource
 import com.rappi.movies.presentation.ui.DividerItemDecoration

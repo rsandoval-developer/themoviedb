@@ -1,4 +1,4 @@
-package com.rappi.movies.data.remote.exceptions
+package com.rappi.movies.data.api.exceptions
 
 class AppException @JvmOverloads constructor(
     val validationType: Type,

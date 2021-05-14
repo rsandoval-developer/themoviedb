@@ -16,18 +16,16 @@ class MoviesDatabaseDataSourceImpl @Inject constructor(
     MoviesDatabaseDataSource {
 
     override fun insertMovies(movies: List<Movie>, idMovies: String) {
-        val movieEntity = movies.map { movie -> this.moviesMapper.mapToDatabase(movie, idMovies) }
-        this.moviesDao.insertMovies(movieEntity)
+        moviesDao.insertMovies(moviesMapper.mapToDatabase(movies, idMovies))
     }
 
     override fun deleteMovies() {
-        this.moviesDao.deleteAllMovies()
+        moviesDao.deleteAllMovies()
     }
 
     override fun getMovies(idMovies: String): Observable<List<Movie>> =
-        this.moviesDao.getMovies(idMovies).toObservable()
-            .flatMapIterable { it }
-            .map(this.moviesMapper::mapFromDatabase)
-            .toList()
+        moviesDao.getMovies(idMovies)
             .toObservable()
+            .map(moviesMapper::mapFromDatabase)
+
 }

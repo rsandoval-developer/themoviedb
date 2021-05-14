@@ -1,7 +1,7 @@
 package com.rappi.movies.data.datasourceimplementations
 
-import com.rappi.movies.data.remote.exceptions.ApiResponseHandler
-import com.rappi.movies.data.remote.services.MoviesServices
+import com.rappi.movies.data.api.exceptions.ApiResponseHandler
+import com.rappi.movies.data.api.services.MoviesServices
 import com.rappi.movies.domain.datasource.MoviesApiDataSource
 import com.rappi.movies.domain.mappers.MoviesMapper
 import com.rappi.movies.domain.mappers.VideosMapper
@@ -20,39 +20,24 @@ class MoviesApiDataSourceImp @Inject constructor(
 ) : MoviesApiDataSource {
 
     override fun getMovies(moviesId: String, apiKey: String, page: Int): Observable<List<Movie>> =
-        this.moviesServices.getMovies(moviesId, apiKey, page)
+        moviesServices.getMovies(moviesId, apiKey, page)
             .flatMap { response ->
-                this.apiResponseHandler.handle(response)
-            }.flatMap { movieResponse ->
-                Observable.fromArray(movieResponse.results)
-                    .flatMapIterable { it }
-                    .map(moviesMapper::mapFromApi)
+                apiResponseHandler.handle(response)
             }
-            .toList()
-            .toObservable()
+            .map(moviesMapper::mapFromApi)
 
     override fun searchMovies(apiKey: String, query: String): Observable<List<Movie>> =
-        this.moviesServices.searchMovies(apiKey, query)
+        moviesServices.searchMovies(apiKey, query)
             .flatMap { response ->
-                this.apiResponseHandler.handle(response)
-            }.flatMap { movieResponse ->
-                Observable.fromArray(movieResponse.results)
-                    .flatMapIterable { it }
-                    .map(moviesMapper::mapFromApi)
+                apiResponseHandler.handle(response)
             }
-            .toList()
-            .toObservable()
+            .map(moviesMapper::mapFromApi)
 
     override fun getVideos(movieId: Int, apiKey: String): Observable<List<Video>> =
-        this.moviesServices.getVideos(movieId, apiKey)
+        moviesServices.getVideos(movieId, apiKey)
             .flatMap { response ->
-                this.apiResponseHandler.handle(response)
-            }.flatMap { videosResponse ->
-                Observable.fromArray(videosResponse.results)
-                    .flatMapIterable { it }
-                    .map(videosMapper::mapFromApi)
+                apiResponseHandler.handle(response)
             }
-            .toList()
-            .toObservable()
+            .map(videosMapper::mapFromApi)
 
 }

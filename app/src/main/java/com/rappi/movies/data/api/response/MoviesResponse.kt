@@ -1,4 +1,4 @@
-package com.rappi.movies.data.remote.response
+package com.rappi.movies.data.api.response
 
 import com.google.gson.annotations.SerializedName
 import java.util.*

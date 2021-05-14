@@ -1,8 +1,8 @@
 package com.rappi.movies.data.repositoryimplementations
 
 import androidx.annotation.VisibleForTesting
-import com.rappi.movies.data.remote.exceptions.AppException
-import com.rappi.movies.data.remote.request.GetMoviesRequestParams
+import com.rappi.movies.data.api.exceptions.AppException
+import com.rappi.movies.data.api.request.GetMoviesRequestParams
 import com.rappi.movies.domain.datasource.MoviesApiDataSource
 import com.rappi.movies.domain.datasource.MoviesDatabaseDataSource
 import com.rappi.movies.domain.model.Movie

@@ -1,4 +1,4 @@
-package com.rappi.movies.data.remote.request
+package com.rappi.movies.data.api.request
 
 class GetMoviesRequestParams(
     val idMovies: String,

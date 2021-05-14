@@ -1,11 +1,11 @@
-package com.rappi.movies.data.remote.services
+package com.rappi.movies.data.api.services
 
 
 import com.rappi.movies.AppConstants.API_GET_VIDEOS
 import com.rappi.movies.AppConstants.API_MOVIES
 import com.rappi.movies.AppConstants.API_SEARCH_MOVIES
-import com.rappi.movies.data.remote.response.MoviesResponse
-import com.rappi.movies.data.remote.response.VideosResponse
+import com.rappi.movies.data.api.response.MoviesResponse
+import com.rappi.movies.data.api.response.VideosResponse
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.GET

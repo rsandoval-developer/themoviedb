@@ -1,6 +1,6 @@
-package com.rappi.movies.data.remote.exceptions
+package com.rappi.movies.data.api.exceptions
 
-import com.rappi.movies.data.remote.response.ErrorApiResponseObject
+import com.rappi.movies.data.api.response.ErrorApiResponseObject
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Converter

@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.rappi.movies.R
-import com.rappi.movies.data.remote.exceptions.AppException
+import com.rappi.movies.data.api.exceptions.AppException
 import com.rappi.movies.databinding.ActivitySearchMoviesBinding
 import com.rappi.movies.databinding.ContentSearchMoviesBinding
 import com.rappi.movies.extensions.hide
