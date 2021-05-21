@@ -43,4 +43,5 @@ data class ApiResponseHandler @Inject constructor(private val retrofit: Retrofit
             }
         }
     }
+
 }

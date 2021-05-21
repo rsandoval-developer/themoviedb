@@ -18,11 +18,12 @@ import com.rappi.movies.R
 import com.rappi.movies.data.api.exceptions.AppException
 import com.rappi.movies.data.api.request.GetMoviesRequestParams
 import com.rappi.movies.databinding.FragmentMoviesBinding
+import com.rappi.movies.extensions.*
 import com.rappi.movies.presentation.base.Resource
 import com.rappi.movies.presentation.ui.DividerItemDecoration
 import com.rappi.movies.presentation.ui.detailmovie.DetailMovieActivity
-import com.rappi.movies.extensions.*
 import com.rappi.movies.presentation.ui.utils.PaginationScrollListener
+import com.rappi.movies.presentation.ui.utils.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -33,7 +34,7 @@ class MoviesFragment : Fragment() {
     private var isLoading: Boolean = false
     private var idMovies: String? = null
     private var page: Int = 1
-    private lateinit var binding: FragmentMoviesBinding
+    private var binding: FragmentMoviesBinding by autoCleared()
 
     private val movieAdapter: MovieAdapter by lazy {
         MovieAdapter(requireContext())
@@ -116,7 +117,8 @@ class MoviesFragment : Fragment() {
                             AppException.Type.ERROR_NETWORK -> {
                                 binding.apply {
                                     txtEmpty.show()
-                                    txtEmpty.text = resources.getString(R.string.connection_error_description)
+                                    txtEmpty.text =
+                                        resources.getString(R.string.connection_error_description)
                                     rvMovies.hide()
                                 }
                             }

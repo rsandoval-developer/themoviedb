@@ -28,9 +28,9 @@ class MoviesViewModel @ViewModelInject constructor(
         )
     }
 
-    private fun handleMovies(counters: List<Movie>) {
+    private fun handleMovies(movies: List<Movie>) {
         resource.value = Resource.Loading(false)
-        resource.value = Resource.Success(counters)
+        resource.value = Resource.Success(movies)
     }
 
     private fun handleError(error: Throwable) {
